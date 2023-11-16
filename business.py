@@ -2,10 +2,13 @@ import domain as d
 movies=[]
 clients=[]
 
+
+
 def ADD_movie(movie):
     movies.append(movie)
 
 def DEL_movie(id):
+    global  movies
     movies = [movie for movie in movies if d.get_movie_id != id]
 
 def MOD_movie(id,movie):
@@ -19,7 +22,8 @@ def ADD_client(client):
     clients.append(client)
 
 def DEL_client(id):
-    clients = [client for client in clients if d.get_client_id != id]
+    global clients
+    clients = [client for client in clients if d.get_client_id(client) != id]
 
 def MOD_client(id,client):
     for old_client in clients:

@@ -39,3 +39,4 @@ def get_movie_description(movie):
 
 def get_movie_genre(movie):
     return movie['genre']
+

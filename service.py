@@ -17,7 +17,8 @@ def create_client(id,name,pid):
     d.set_client_pid(client,pid)
     return client
 
-def add_movie(id,name,description,genre):
+def add_movie(name,description,genre):
+    id=get_next_movie_id()
     movie=create_movie(id,name,description,genre)
     b.ADD_movie(movie)
 
@@ -29,7 +30,8 @@ def mod_movie(id,name,description,genre):
     movie=create_movie(id,name,description,genre)
     b.MOD_movie(id,movie)
     
-def add_client(id,name,pid):
+def add_client(name,pid):
+    id=get_next_client_id()
     client=create_client(id,name,pid)
     b.ADD_client(client)
 
@@ -42,6 +44,18 @@ def mod_client(id,name,pid):
     b.MOD_client(id,client)
 
 #prop={'property':'id,name,etc','value':'value'}
+def get_next_client_id():
+    clients = b.get_clients()
+    client_ids = [int(d.get_client_id(client)) for client in clients]
+    max_client_id = max(client_ids, default=-1) + 1
+    available_ids = set(range(max_client_id + 1)) - set(client_ids)
+    
+    return min(available_ids)
+def get_next_movie_id():
+    movies = b.get_movies()
+    movie_ids = [int(d.get_movie_id(movie)) for movie in movies]
+    max_movie_id = max(movie_ids, default=-1) + 1
+    available_ids = set(range(max_movie_id + 1)) - set(movie_ids)
 
 def search_movie(prop):
     movies=b.get_movies()
@@ -92,8 +106,12 @@ def search_client(prop):
                     ids.append(d.get_client_id(client))
     return ids
 
-add_client(1,'Mike','328956495')
-add_client(3,'Mike','32833246495')
-add_client(2,'George','45325451')
-prop={'property':'name','value':'Mike'}
+add_client('Mike','328956495')
+add_client('Mike1','328956495')
+add_client('Mike2','328956495')
+del_client([1])
+print(b.get_clients())
+add_client('Mike','328956495')
+print(b.get_clients())
+prop={'property':'name','value':'Mike1'}
 print(search_client(prop))
