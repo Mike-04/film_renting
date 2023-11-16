@@ -1,8 +1,17 @@
 import domain as d
+import persistence as loaders
 movies=[]
+#movies=[{'id':id_value,'name':name_of_movie,'description':description_of_movie,'genre':genre_of_movie}]
 clients=[]
 
+def load_data():
+    global movies,clients
+    movies=loaders.load_data_from_file('movies.json')
+    clients=loaders.load_data_from_file('clients.json')
 
+def save_data():
+    loaders.save_data_to_file(movies,'movies.json')
+    loaders.save_data_to_file(clients,'clients.json')
 
 def ADD_movie(movie):
     movies.append(movie)

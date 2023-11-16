@@ -1,11 +1,18 @@
 import business as b
 import domain as d
 import service as s
+
+def load():
+     b.load_data()
+
+def save():
+     b.save_data()
+
 def print_movie(movie):
     name=d.get_movie_name(movie)
     description=d.get_movie_description(movie)
     genre=d.get_movie_genre(movie)
-    print("Name:",name,"Description:",description,"Genre:",genre)
+    print("Name:",name,"\nDescription:",description,"\nGenre:",genre,"\n")
 
 def print_client(client):
     name=d.get_client_name(client)

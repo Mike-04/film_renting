@@ -49,13 +49,14 @@ def get_next_client_id():
     client_ids = [int(d.get_client_id(client)) for client in clients]
     max_client_id = max(client_ids, default=-1) + 1
     available_ids = set(range(max_client_id + 1)) - set(client_ids)
-    
     return min(available_ids)
+
 def get_next_movie_id():
     movies = b.get_movies()
     movie_ids = [int(d.get_movie_id(movie)) for movie in movies]
     max_movie_id = max(movie_ids, default=-1) + 1
     available_ids = set(range(max_movie_id + 1)) - set(movie_ids)
+    return min(available_ids)
 
 def search_movie(prop):
     movies=b.get_movies()

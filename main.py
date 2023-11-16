@@ -24,6 +24,8 @@ def read_com():
                                 s.add_client(args[0],args[1])
                             case "m":
                                 s.add_movie(args[0],args[1],args[2])
+                            case _:
+                                print("Invalid descriptor!")
                     case "src":
                         prop={'property':args[0],'value':args[1]}
                         match desc:
@@ -33,6 +35,8 @@ def read_com():
                             case "m":
                                 ids=s.search_movie(prop)
                                 ui.print_movies(ids)
+                            case _:
+                                print("Invalid descriptor!")
                     case "del":
                         prop={'property':args[0],'value':args[1]}
                         match desc:
@@ -48,6 +52,8 @@ def read_com():
                                 ui.print_movies(ids)
                                 if(ui.get_confirm()):
                                     s.del_movie(ids)
+                            case _:
+                                print("Invalid descriptor!")
                     case "view":
                         ids=[-1]
                         match desc:
@@ -55,6 +61,12 @@ def read_com():
                                 ui.print_clients(ids)
                             case "m":
                                 ui.print_movies(ids)
+                            case _:
+                                print("Invalid descriptor!")
+                    case "save":
+                        ui.save()
+                    case "load":
+                        ui.load()
                     case "exit":
                         break
                     case "clearc":
@@ -62,5 +74,6 @@ def read_com():
                     case _:
                         print("Function error")
                         print("Command:",comm,"\nDescriptor:",desc,"\nArgs:",args)
+ui.load()
 os.system("cls")
 read_com()
