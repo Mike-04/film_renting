@@ -105,13 +105,3 @@ def search_client(prop):
                 if d.get_client_pid(client)==pid:
                     ids.append(d.get_client_id(client))
     return ids
-
-add_client('Mike','328956495')
-add_client('Mike1','328956495')
-add_client('Mike2','328956495')
-del_client([1])
-print(b.get_clients())
-add_client('Mike','328956495')
-print(b.get_clients())
-prop={'property':'name','value':'Mike1'}
-print(search_client(prop))
