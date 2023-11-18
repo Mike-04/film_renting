@@ -74,6 +74,6 @@ def read_com():
                     case _:
                         print("Function error")
                         print("Command:",comm,"\nDescriptor:",desc,"\nArgs:",args)
-ui.load()
 os.system("cls")
+s.test()
 read_com()

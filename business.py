@@ -6,8 +6,8 @@ clients=[]
 
 def load_data():
     global movies,clients
-    movies=loaders.load_data_from_file('movies.json')
-    clients=loaders.load_data_from_file('clients.json')
+    movies=loaders.load_movies_from_file('movies.json')
+    clients=loaders.load_clients_from_file('clients.json')
 
 def save_data():
     loaders.save_data_to_file(movies,'movies.json')
@@ -18,11 +18,11 @@ def ADD_movie(movie):
 
 def DEL_movie(id):
     global  movies
-    movies = [movie for movie in movies if d.get_movie_id != id]
+    movies = [movie for movie in movies if movie.get_id != id]
 
 def MOD_movie(id,movie):
     for old_movie in movies:
-        if d.get_movie_id == id:
+        if movie.get_id == id:
             old_movie.update(movie)
             return
     raise "id_error"
@@ -32,11 +32,11 @@ def ADD_client(client):
 
 def DEL_client(id):
     global clients
-    clients = [client for client in clients if d.get_client_id(client) != id]
+    clients = [client for client in clients if client.get_id() != id]
 
 def MOD_client(id,client):
     for old_client in clients:
-        if d.get_client_id == id:
+        if client.get_id == id:
             old_client.update(client)
             return
     raise "id_error"
@@ -48,3 +48,4 @@ def get_movies():
 def get_clients():
     cclients=clients
     return cclients
+    
