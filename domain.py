@@ -22,6 +22,9 @@ class Client:
     def get_pid(self):
         return self.__pid
 
+    def __str__(self):
+        return str(self.__id)+" "+self.__name+" "+self.__pid
+
 class Movie:
     def __init__(self,id,name,description,genre):
         self.__id=id
@@ -52,6 +55,9 @@ class Movie:
 
     def get_genre(self):
         return self.__genre
+
+    def __str__(self):
+        return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre
     
 class ValidateMovie:
     def validate_movie(self, movie):
