@@ -13,7 +13,7 @@ class Console:
         """
         self.__mctr = mctr
         self.__cctr = cctr
-        #self.__rctr = rctr
+        self.__rctr = rctr
 
     def __readUserCommand(self):
         input_string=input(">>>")
@@ -48,6 +48,19 @@ class Console:
         except Exception as ex:
             print (ex)
     
+    def __createdRent(self,a):
+        propc={'property':a[0],'value':a[1]}
+        propm={'property':a[2],'value':a[3]}
+        clients=self.__cctr.search(propc)
+        print("Selected client is",clients[0])
+        movies=self.__mctr.search(propm)
+        print("Selected movie is",movies[0])
+        if(self.__get_confirm()):
+            try:
+                self.__rctr.create(clients[0],movies[0])
+            except Exception as ex:
+                print (ex)
+    
     def __printMovies(self,movies):
         for movie in movies:
             print(movie)
@@ -55,6 +68,10 @@ class Console:
     def __printClients(self,clients):
         for client in clients:
             print(client)
+
+    def __printRents(self,rents):
+        for rent in rents:
+            print(rent)
     
     def __get_confirm(self):
         input_string=input("Type CONFIRM to confirm the operation:")
@@ -72,6 +89,8 @@ class Console:
                                 self.__createdClient(a)
                             case "m":
                                 self.__createdMovie(a)
+                            case "r":
+                                self.__createdRent(a)
                             case _:
                                 print("Invalid descriptor!")
                     case "src":
@@ -99,7 +118,7 @@ class Console:
                                 print("Folowing entries will be deleted:")
                                 self.__printClients(movies)
                                 if(self.__get_confirm()):
-                                    self.__cctr.delete(movies)
+                                    self.__mctr.delete(movies)
                             case _:
                                 print("Invalid descriptor!")
                     case "view":
@@ -110,14 +129,19 @@ class Console:
                             case "m":
                                 movies=self.__mctr.get_all()
                                 self.__printClients(movies)
+                            case "r":
+                                rents=self.__rctr.get_all()
+                                self.__printRents(rents)
                             case _:
                                 print("Invalid descriptor!")
                     case "save":
                         self.__mctr.save()
                         self.__cctr.save()
+                        self.__rctr.save()
                     case "load":
                         self.__mctr.load()
                         self.__cctr.load()
+                        self.__rctr.load()
                     case "exit":
                         break
                     case "clearc":

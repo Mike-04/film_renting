@@ -59,6 +59,33 @@ class Movie:
     def __str__(self):
         return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre
     
+class Rent:
+    def __init__(self,id,client,movie):
+        self.__id=id
+        self.__client=client
+        self.__movie=movie
+    
+    def get_id(self):
+        return self.__id
+
+    def get_movie(self):
+        return self.__movie
+
+    def get_client(self):
+        return self.__client
+    
+    def set_id(self,id):
+        self.__id=id
+
+    def set_movie(self,movie):
+        self.__movie=movie
+
+    def set_client(self,client):
+        self.__client=client
+    
+    def __str__(self):
+        return str(self.__id)+" "+str(self.__client.get_name())+": "+str(self.__movie.get_name())
+
 class ValidateMovie:
     def validate(self, movie):
         errors = []

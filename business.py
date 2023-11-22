@@ -1,5 +1,6 @@
 from domain import Movie
 from domain import Client
+from domain import Rent
 import json
 #movies=[{'id':id_value,'name':name_of_movie,'description':description_of_movie,'genre':genre_of_movie}]
 
@@ -107,6 +108,62 @@ class ClientRepository:
                 "id": client.get_id(),
                 "name": client.get_name(),
                 "pid": client.get_pid()
+            })
+
+        try:
+            with open(filename, 'w') as file:
+                json.dump(client_data, file, indent=2)
+            print(f'Data successfully saved to {filename}')
+        except Exception as e:
+            print(f'Error saving data to {filename}: {e}')
+
+class RentRepository:
+    def __init__(self):
+        self.__rents=[]
+
+    def add(self,rent):
+        self.__rents.append(rent)
+
+    def remove(self,rent_id):
+        for rent in self.__rents:
+            if rent.get_id() == rent_id:
+                self.__rents.remove(rent)
+                return rent
+
+    def mod(self,id,rent):
+        self.remove(id)
+        self.add(rent)
+
+    def find(self, id):
+        for rent in self.__rents:
+            if rent.get_id() == id:
+                return rent
+        return None
+    
+    def size(self):
+        return len(self.__rents)
+    
+    def get_all(self):
+        return self.__rents
+
+    def load_from_file(self, filename):
+        try:
+            with open(filename, 'r') as file:
+                jdata = json.load(file)
+            print(f'Data successfully loaded from {filename}')
+            for item in jdata:
+                rent = rent(item['id'], item['client'], item['movie'])
+                self.add(rent)
+        except Exception as e:
+            print(f'Error loading data from {filename}: {e}')
+
+    def save_to_file(self, filename):
+        client_data = []
+        for rent in self.__rents:
+            client_data.append({
+                "id": rent.get_id(),
+                "client": rent.get_client(),
+                "movie": rent.get_movie()
             })
 
         try:

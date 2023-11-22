@@ -1,5 +1,4 @@
-from domain import Movie
-from domain import Client
+from domain import Movie,Client,Rent
 
 #movie={'id':int,'name':string,'description':string,'genre':genre}
 #client={'id':int,'name':string,'pid':string}
@@ -7,9 +6,10 @@ from domain import Client
 
 class MovieController:
     
-    def __init__(self,val,repo):
+    def __init__(self,val,repo,rrctr):
         self.__val = val
         self.__repo = repo
+        self.__rc=rrctr
 
     def create(self,name,description,genre):
         id=self.get_next_id()
@@ -27,7 +27,9 @@ class MovieController:
     def delete(self, movies):
         for movie in movies:
             movie_id=movie.get_id()
+            associated_rents = [rent for rent in self.__rc.get_all() if rent.get_movie().get_id() == movie_id]
             self.__repo.remove(movie_id)
+            self.__rc.delete(associated_rents)
 
     def modify(self, id, name, description, genre):
         movie = Movie(id,name,description,genre)
@@ -63,9 +65,10 @@ class MovieController:
 
 
 class ClientController:
-    def __init__(self,val,repo):
+    def __init__(self,val,repo,rrctr):
         self.__val = val
         self.__repo = repo
+        self.__rc=rrctr
 
     def create(self,name,pid):
         id=self.get_next_id()
@@ -83,7 +86,9 @@ class ClientController:
     def delete(self, clients):
         for client in clients:
             client_id=client.get_id()
+            associated_rents = [rent for rent in self.__rc.get_all() if rent.get_client().get_id() == client_id]
             self.__repo.remove(client_id)
+            self.__rc.delete(associated_rents)
 
     def modify(self,name,pid):
         client = Client(id,name,pid)
@@ -116,3 +121,38 @@ class ClientController:
     
     def save(self):
         self.__repo.save_to_file("clients.json")
+
+class RentController:
+    def __init__(self,val,repo):
+        self.__val = val
+        self.__repo = repo
+
+    def create(self,client,movie):
+        id=self.get_next_id()
+        rent=Rent(id,client,movie)
+        self.__repo.add(rent)
+
+    def get_next_id(self):
+        existing_ids = {rent.get_id() for rent in self.__repo.get_all()}
+        next_id = 1
+        while next_id in existing_ids:
+            next_id += 1
+        return next_id
+    
+    def delete(self, rents):
+        for rent in rents:
+            rent_id=rent.get_id()
+            self.__repo.remove(rent_id)
+
+    def modify(self,client,movie):
+        rent = rent(id,client,movie)
+        self.__repo.mod(id, rent)
+
+    def get_all(self):
+        return self.__repo.get_all()
+
+    def load(self):
+        self.__repo.load_from_file("rents.json")
+    
+    def save(self):
+        self.__repo.save_to_file("rents.json")
