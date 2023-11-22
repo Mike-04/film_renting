@@ -60,7 +60,7 @@ class Movie:
         return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre
     
 class ValidateMovie:
-    def validate_movie(self, movie):
+    def validate(self, movie):
         errors = []
         if (movie.get_id()==""): errors.append("Id can not be empty!")
         if (movie.get_name()==""): errors.append("Name can not be empty!")
@@ -70,7 +70,7 @@ class ValidateMovie:
             raise errors
 
 class ValidateClient:
-    def validate_client(self, client):
+    def validate(self, client):
         errors = []
         if (client.get_id()==""): errors.append("Id can not be empty!")
         if (client.get_name()==""): errors.append("Name can not be empty!")

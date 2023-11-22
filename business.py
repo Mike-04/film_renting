@@ -10,10 +10,11 @@ class MovieRepository:
     def add(self,movie):
         self.__movies.append(movie)
 
-    def remove(self,id):
-        movie = self.__movies[id]
-        del self.__movies[id]
-        return movie
+    def remove(self,movie_id): 
+        for movie in self.__movies:
+            if movie.get_id() == movie_id:
+                self.__movies.remove(movie)
+                return movie
 
     def mod(self,id,movie):
         self.remove(id)
@@ -41,6 +42,23 @@ class MovieRepository:
                 self.add(movie)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
+    
+    def save_to_file(self, filename):
+        movie_data = []
+        for movie in self.__movies:
+            movie_data.append({
+                "id": movie.get_id(),
+                "name": movie.get_name(),
+                "description": movie.get_description(),
+                "genre": movie.get_genre()
+            })
+
+        try:
+            with open(filename, 'w') as file:
+                json.dump(movie_data, file, indent=2)
+            print(f'Data successfully saved to {filename}')
+        except Exception as e:
+            print(f'Error saving data to {filename}: {e}')
 
 class ClientRepository:
     def __init__(self):
@@ -49,10 +67,11 @@ class ClientRepository:
     def add(self,client):
         self.__clients.append(client)
 
-    def remove(self,id):
-        client = self.__clients[id]
-        del self.__clients[id]
-        return client
+    def remove(self,client_id):
+        for client in self.__clients:
+            if client.get_id() == client_id:
+                self.__clients.remove(client)
+                return client
 
     def mod(self,id,client):
         self.remove(id)
@@ -81,10 +100,18 @@ class ClientRepository:
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
 
-repository = MovieRepository()
-repository.load_from_file('movies.json')
+    def save_to_file(self, filename):
+        client_data = []
+        for client in self.__clients:
+            client_data.append({
+                "id": client.get_id(),
+                "name": client.get_name(),
+                "pid": client.get_pid()
+            })
 
-print(repository.find(10))
-
-for movie in repository.get_all():
-    print(movie)
+        try:
+            with open(filename, 'w') as file:
+                json.dump(client_data, file, indent=2)
+            print(f'Data successfully saved to {filename}')
+        except Exception as e:
+            print(f'Error saving data to {filename}: {e}')

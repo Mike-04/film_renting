@@ -1,22 +1,122 @@
 [
-    {"id": 1, "name": "Cyberpunk Edgerunners", "description": "A cyberpunk-themed anime", "genre": "Sci-Fi"},
-    {"id": 2, "name": "Attack on Titan", "description": "Humans fight for survival against giant titans", "genre": "Action"},
-    {"id": 3, "name": "Death Note", "description": "A high school student gains a mysterious notebook with deadly powers", "genre": "Mystery"},
-    {"id": 4, "name": "Fullmetal Alchemist: Brotherhood", "description": "Two brothers seek the Philosopher's Stone to restore their bodies", "genre": "Fantasy"},
-    {"id": 5, "name": "One Punch Man", "description": "A hero who can defeat any opponent with a single punch", "genre": "Action"},
-    {"id": 6, "name": "Spirited Away", "description": "A girl's journey in a magical world to rescue her parents", "genre": "Fantasy"},
-    {"id": 7, "name": "My Hero Academia", "description": "A world where people have superpowers known as quirks", "genre": "Action"},
-    {"id": 8, "name": "Naruto", "description": "A young ninja's quest for recognition and dreams of becoming Hokage", "genre": "Action"},
-    {"id": 9, "name": "One Piece", "description": "A pirate's adventure to find the legendary One Piece treasure", "genre": "Adventure"},
-    {"id": 10, "name": "Cowboy Bebop", "description": "Bounty hunters in space embark on various adventures", "genre": "Sci-Fi"},
-    {"id": 11, "name": "The Silence of the Lambs", "description": "Hannibal Lecter at his finest", "genre": "Thriller"},
-    {"id": 12, "name": "The Shawshank Redemption", "description": "A tale of hope and redemption", "genre": "Drama"},
-    {"id": 13, "name": "Fight Club", "description": "The first rule of Fight Club...", "genre": "Drama"},
-    {"id": 14, "name": "The Social Network", "description": "The founding of Facebook", "genre": "Biography"},
-    {"id": 15, "name": "Interstellar", "description": "Exploring space and time", "genre": "Sci-Fi"},
-    {"id": 16, "name": "The Godfather: Part II", "description": "The Corleone family saga continues", "genre": "Crime"},
-    {"id": 17, "name": "Schindler's List", "description": "A powerful tale of humanity during the Holocaust", "genre": "Biography"},
-    {"id": 18, "name": "The Lord of the Rings: The Fellowship of the Ring", "description": "A journey to destroy the One Ring", "genre": "Fantasy"},
-    {"id": 19, "name": "The Lord of the Rings: The Two Towers", "description": "The continuation of the epic quest", "genre": "Fantasy"},
-    {"id": 20, "name": "The Lord of the Rings: The Return of the King", "description": "The final battle for Middle-earth", "genre": "Fantasy"}
+  {
+    "id": 1,
+    "name": "Cyberpunk Edgerunners",
+    "description": "A cyberpunk-themed anime",
+    "genre": "Sci-Fi"
+  },
+  {
+    "id": 2,
+    "name": "Attack on Titan",
+    "description": "Humans fight for survival against giant titans",
+    "genre": "Action"
+  },
+  {
+    "id": 3,
+    "name": "Death Note",
+    "description": "A high school student gains a mysterious notebook with deadly powers",
+    "genre": "Mystery"
+  },
+  {
+    "id": 4,
+    "name": "Fullmetal Alchemist: Brotherhood",
+    "description": "Two brothers seek the Philosopher's Stone to restore their bodies",
+    "genre": "Fantasy"
+  },
+  {
+    "id": 5,
+    "name": "One Punch Man",
+    "description": "A hero who can defeat any opponent with a single punch",
+    "genre": "Action"
+  },
+  {
+    "id": 6,
+    "name": "Spirited Away",
+    "description": "A girl's journey in a magical world to rescue her parents",
+    "genre": "Fantasy"
+  },
+  {
+    "id": 7,
+    "name": "My Hero Academia",
+    "description": "A world where people have superpowers known as quirks",
+    "genre": "Action"
+  },
+  {
+    "id": 8,
+    "name": "Naruto",
+    "description": "A young ninja's quest for recognition and dreams of becoming Hokage",
+    "genre": "Action"
+  },
+  {
+    "id": 9,
+    "name": "One Piece",
+    "description": "A pirate's adventure to find the legendary One Piece treasure",
+    "genre": "Adventure"
+  },
+  {
+    "id": 10,
+    "name": "Cowboy Bebop",
+    "description": "Bounty hunters in space embark on various adventures",
+    "genre": "Sci-Fi"
+  },
+  {
+    "id": 11,
+    "name": "The Silence of the Lambs",
+    "description": "Hannibal Lecter at his finest",
+    "genre": "Thriller"
+  },
+  {
+    "id": 12,
+    "name": "The Shawshank Redemption",
+    "description": "A tale of hope and redemption",
+    "genre": "Drama"
+  },
+  {
+    "id": 13,
+    "name": "Fight Club",
+    "description": "The first rule of Fight Club...",
+    "genre": "Drama"
+  },
+  {
+    "id": 14,
+    "name": "The Social Network",
+    "description": "The founding of Facebook",
+    "genre": "Biography"
+  },
+  {
+    "id": 15,
+    "name": "Interstellar",
+    "description": "Exploring space and time",
+    "genre": "Sci-Fi"
+  },
+  {
+    "id": 16,
+    "name": "The Godfather: Part II",
+    "description": "The Corleone family saga continues",
+    "genre": "Crime"
+  },
+  {
+    "id": 17,
+    "name": "Schindler's List",
+    "description": "A powerful tale of humanity during the Holocaust",
+    "genre": "Biography"
+  },
+  {
+    "id": 18,
+    "name": "The Lord of the Rings: The Fellowship of the Ring",
+    "description": "A journey to destroy the One Ring",
+    "genre": "Fantasy"
+  },
+  {
+    "id": 19,
+    "name": "The Lord of the Rings: The Two Towers",
+    "description": "The continuation of the epic quest",
+    "genre": "Fantasy"
+  },
+  {
+    "id": 20,
+    "name": "The Lord of the Rings: The Return of the King",
+    "description": "The final battle for Middle-earth",
+    "genre": "Fantasy"
+  }
 ]

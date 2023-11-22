@@ -1,47 +1,129 @@
-import business as b
-import domain as d
-import service as s
 
-def load():
-    b.load_data()
+from domain import Movie
+from domain import Client
+import os
 
-def save():
-    b.save_data()
 
-def print_movie(movie):
-    name=movie.get_name()
-    description=movie.get_description()
-    genre=movie.get_genre()
-    print("Name:",name,"\nDescription:",description,"\nGenre:",genre,"\n")
+class Console:
+    def __init__(self, mctr,cctr,rctr):
+        """
+          Initialise UI
+          ctr StudentControler
+          ctrgr GradeController
+        """
+        self.__mctr = mctr
+        self.__cctr = cctr
+        #self.__rctr = rctr
 
-def print_client(client):
-    name=client.get_name()
-    pid=client.get_pid()
-    print("Name:",name,"PID:",pid)
+    def __readUserCommand(self):
+        input_string=input(">>>")
+        commands=input_string.split(";") 
+        for comms in commands:
+            comms=comms.strip()
+            elem=comms.split(" ",1)
+            comm_desc=elem[0].split("_")
+            comm=comm_desc[0].strip()
+            elem.append("")
+            try:
+                desc=comm_desc[1].strip()
+            except:
+                desc=[]
+            args=elem[1].split(",")
+            return (comm,desc,args)
+        
+    def __createdMovie(self,a):
+        name = a[0].strip()
+        description = a[1].strip()
+        genre = a[2].strip()
+        try:
+            self.__mctr.create(name,description,genre)
+        except Exception as ex:
+            print (ex)
+    
+    def __createdClient(self,a):
+        name = a[0].strip()
+        pid = a[1].strip()
+        try:
+            self.__cctr.create(name,pid)
+        except Exception as ex:
+            print (ex)
+    
+    def __printMovies(self,movies):
+        for movie in movies:
+            print(movie)
+    
+    def __printClients(self,clients):
+        for client in clients:
+            print(client)
+    
+    def __get_confirm(self):
+        input_string=input("Type CONFIRM to confirm the operation:")
+        if(input_string=="CONFIRM"):
+            return 1
+        return 0
 
-def print_clients(ids):
-        clients=b.get_clients()
-        if(ids!=[-1]):
-            for client in clients:
-                if client.get_id() in ids:
-                    print_client(client)
-        else:
-            for client in clients:
-                print_client(client)
-             
+    def startUI(self):
+        while True:
+            (c,d,a) = self.__readUserCommand()
+            match c:
+                    case "add":
+                        match d:
+                            case "c":
+                                self.__createdClient(a)
+                            case "m":
+                                self.__createdMovie(a)
+                            case _:
+                                print("Invalid descriptor!")
+                    case "src":
+                        prop={'property':a[0],'value':a[1]}
+                        match d:
+                            case "c":
+                                clients=self.__cctr.search(prop)
+                                self.__printClients(clients)
+                            case "m":
+                                movies=self.__mctr.search(prop)
+                                self.__printMovies(movies)
+                            case _:
+                                print("Invalid descriptor!")
+                    case "del":
+                        prop={'property':a[0],'value':a[1]}
+                        match d:
+                            case "c":
+                                clients=self.__cctr.search(prop)
+                                print("Folowing entries will be deleted:")
+                                self.__printClients(clients)
+                                if(self.__get_confirm()):
+                                    self.__cctr.delete(clients)
+                            case "m":
+                                movies=self.__cctr.search(prop)
+                                print("Folowing entries will be deleted:")
+                                self.__printClients(movies)
+                                if(self.__get_confirm()):
+                                    self.__cctr.delete(movies)
+                            case _:
+                                print("Invalid descriptor!")
+                    case "view":
+                        match d:
+                            case "c":
+                                clients=self.__cctr.get_all()
+                                self.__printClients(clients)
+                            case "m":
+                                movies=self.__mctr.get_all()
+                                self.__printClients(movies)
+                            case _:
+                                print("Invalid descriptor!")
+                    case "save":
+                        self.__mctr.save()
+                        self.__cctr.save()
+                    case "load":
+                        self.__mctr.load()
+                        self.__cctr.load()
+                    case "exit":
+                        break
+                    case "clearc":
+                        os.system("cls")
+                    case _:
+                        print("Function error")
+                        print("Command:",c,"\nDescriptor:",d,"\nArgs:",a) 
 
-def print_movies(ids):
-        movies=b.get_movies()
-        if(ids!=[-1]):
-            for movie in movies:
-                if movie.get_id() in ids:
-                    print_movie(movie)
-        else:
-            for movie in movies:
-                print_movie(movie)
 
-def get_confirm():
-    input_string=input("Type CONFIRM to confirm the operation:")
-    if(input_string=="CONFIRM"):
-        return 1
-    return 0

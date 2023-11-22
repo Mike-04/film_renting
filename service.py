@@ -24,35 +24,42 @@ class MovieController:
             next_id += 1
         return next_id
     
-    def delete(self, ids):
-        for movie_id in ids:
+    def delete(self, movies):
+        for movie in movies:
+            movie_id=movie.get_id()
             self.__repo.remove(movie_id)
 
     def modify(self, id, name, description, genre):
         movie = Movie(id,name,description,genre)
         self.__repo.mod(id, movie)
 
+    def get_all(self):
+        return self.__repo.get_all()
+
     def search(self, prop):
         movies = self.__repo.get_all()
-        matching_ids = []
-
+        matching_movies = []
         for movie in movies:
             movie_id = movie.get_id()
-
             if prop['property'] == 'id':
                 if movie_id == int(prop['value']):
-                    matching_ids.append(movie_id)
+                    matching_movies.append(movie)
             elif prop['property'] == 'name':
-                if movie.get_name() == prop['value']:
-                    matching_ids.append(movie_id)
+                if prop['value'] in movie.get_name():
+                    matching_movies.append(movie)
             elif prop['property'] == 'description':
-                if movie.get_description() == prop['value']:
-                    matching_ids.append(movie_id)
+                if prop['value'] in movie.get_description():
+                    matching_movies.append(movie)
             elif prop['property'] == 'genre':
-                if movie.get_genre() == prop['value']:
-                    matching_ids.append(movie_id)
-
-        return matching_ids
+                if prop['value'] in movie.get_genre():
+                    matching_movies.append(movie)
+        return matching_movies
+    
+    def load(self):
+        self.__repo.load_from_file("movies.json")
+    
+    def save(self):
+        self.__repo.save_to_file("movies.json")
 
 
 class ClientController:
@@ -73,29 +80,39 @@ class ClientController:
             next_id += 1
         return next_id
     
-    def delete(self, ids):
-        for client_id in ids:
+    def delete(self, clients):
+        for client in clients:
+            client_id=client.get_id()
             self.__repo.remove(client_id)
 
     def modify(self,name,pid):
         client = Client(id,name,pid)
         self.__repo.mod(id, client)
 
+    def get_all(self):
+        return self.__repo.get_all()
+
     def search(self, prop):
         clients = self.__repo.get_all()
-        matching_ids = []
+        matching_clients = []
 
         for client in clients:
             client_id = client.get_id()
 
             if prop['property'] == 'id':
                 if client_id == int(prop['value']):
-                    matching_ids.append(client_id)
+                    matching_clients.append(client)
             elif prop['property'] == 'name':
-                if client.get_name() == prop['value']:
-                    matching_ids.append(client_id)
+                if prop['value'] in client.get_name(): 
+                    matching_clients.append(client)
             elif prop['property'] == 'pid':
                 if client.get_pid() == prop['value']:
-                    matching_ids.append(client_id)
+                    matching_clients.append(client)
 
-        return matching_ids
+        return matching_clients
+
+    def load(self):
+        self.__repo.load_from_file("clients.json")
+    
+    def save(self):
+        self.__repo.save_to_file("clients.json")
