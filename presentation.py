@@ -74,27 +74,34 @@ class Console:
             propm={'property':a[2],'value':a[3]}
             clients=[]
             movies=[]
+            rent_movies=[]
+            movies=self.__mctr.search(propm)
+            clients=self.__cctr.search(propc)
+            print("The following rents will be returned:")
             for rent in rents:
-                movie=rent.get_movie()
-                client=rent.get_client()
-                clients.append(client)
-                movies.append(movie)
-            for movie in movies:
-                print(movie)
-            for client in clients:
-                print(client)
-            for rent in rents:
-                if rent.get_movie() in movies or rent.get_client in clients:
-                    rents_del.append(rent)
-                    rent.get_movie().set_avb(True)
+                if rent.get_movie() in movies or rent.get_client() in clients:
+                    print(rent)
+            if(self.__get_confirm()):
+                for rent in rents:
+                    if rent.get_movie() in movies or rent.get_client() in clients:
+                        rents_del.append(rent)
+                        rent_movies.append(rent.get_movie())
+                for movie in movies:
+                    if movie in rent_movies:
+                        movie.set_avb(True)
+                self.__rctr.delete(rents_del) 
         elif len(a)==1:
             id=int(a[0])
+            print("The following rents will be returned:")
             for rent in rents:
                 if rent.get_id() == id:
-                    print(rent.get_id())
-                    rents_del.append(rent)
-                    rent.get_movie().set_avb(True)
-        self.__rctr.delete(rents_del)   
+                    print(rent)
+            if(self.__get_confirm()):
+                for rent in rents:
+                    if rent.get_id() == id:
+                        rents_del.append(rent)
+                        rent.get_movie().set_avb(True)
+                    self.__rctr.delete(rents_del)    
 
     def __printMovies(self,movies):
         for movie in movies:
@@ -129,14 +136,24 @@ class Console:
                             case _:
                                 print("Invalid descriptor!")
                     case "src":
-                        prop={'property':a[0],'value':a[1]}
                         match d:
                             case "c":
+                                prop={'property':a[0],'value':a[1]}
                                 clients=self.__cctr.search(prop)
                                 self.__printClients(clients)
                             case "m":
+                                prop={'property':a[0],'value':a[1]}
                                 movies=self.__mctr.search(prop)
                                 self.__printMovies(movies)
+                            case "r":
+                                rents=self.__rctr.get_all()
+                                propc={'property':a[0],'value':a[1]}
+                                propm={'property':a[2],'value':a[3]}
+                                movies=self.__mctr.search(propm)
+                                clients=self.__cctr.search(propc)
+                                for rent in rents:
+                                    if rent.get_movie() in movies or rent.get_client() in clients:
+                                        print(rent)
                             case _:
                                 print("Invalid descriptor!")
                     case "del":

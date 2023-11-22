@@ -112,7 +112,6 @@ class ClientRepository:
                 "pid": client.get_pid(),
                 "rents": client.get_rents()
             })
-
         try:
             with open(filename, 'w') as file:
                 json.dump(client_data, file, indent=2)
@@ -155,23 +154,41 @@ class RentRepository:
                 jdata = json.load(file)
             print(f'Data successfully loaded from {filename}')
             for item in jdata:
-                rent = rent(item['id'], item['client'], item['movie'])
+                id=item['id']
+                movied=item['movie']
+                clientd=item['client']
+                client = Client(clientd['id'], clientd['name'], clientd['pid'],clientd['rents'])
+                movie = Movie(movied['id'], movied['name'], movied['description'], movied['genre'],movied['rents'],movied['avb'])
+                rent= Rent(id,client,movie)
                 self.add(rent)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
 
     def save_to_file(self, filename):
-        client_data = []
+        rent_data=[]
         for rent in self.__rents:
-            client_data.append({
+            client=rent.get_client()
+            movie=rent.get_movie()
+            rent_data.append({
                 "id": rent.get_id(),
-                "client": rent.get_client(),
-                "movie": rent.get_movie()
+                "client":{
+                "id":client.get_id(),
+                "name":client.get_name(),
+                "pid":client.get_pid(),
+                "rents":client.get_rents()
+                },
+                "movie":{
+                "id":movie.get_id(),
+                "name":movie.get_name(),
+                "description":movie.get_description(),
+                "genre":movie.get_genre(),
+                "rents":movie.get_rents(),  
+                "avb":movie.get_avb()  
+                }
             })
-
         try:
             with open(filename, 'w') as file:
-                json.dump(client_data, file, indent=2)
+                json.dump(rent_data, file, indent=2)
             print(f'Data successfully saved to {filename}')
         except Exception as e:
             print(f'Error saving data to {filename}: {e}')

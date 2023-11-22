@@ -1,4 +1,36 @@
 [
   {
     "id": 1,
-    "client": 
+    "client": {
+      "id": 1,
+      "name": "John Doe",
+      "pid": "123456789",
+      "rents": 1
+    },
+    "movie": {
+      "id": 1,
+      "name": "Cyberpunk Edgerunners",
+      "description": "A cyberpunk-themed anime",
+      "genre": "Sci-Fi",
+      "rents": 1,
+      "avb": false
+    }
+  },
+  {
+    "id": 2,
+    "client": {
+      "id": 2,
+      "name": "Jane Smith",
+      "pid": "987654321",
+      "rents": 1
+    },
+    "movie": {
+      "id": 2,
+      "name": "Attack on Titan",
+      "description": "Humans fight for survival against giant titans",
+      "genre": "Action",
+      "rents": 1,
+      "avb": false
+    }
+  }
+]

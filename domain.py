@@ -32,6 +32,10 @@ class Client:
     def __str__(self):
         return str(self.__id)+" "+self.__name+" "+self.__pid+" "+str(self.__rents)
 
+    def __eq__(self, other):
+        return self.__id == other.__id
+
+
 class Movie:
     def __init__(self,id,name,description,genre,rents,avb):
         self.__id=id
@@ -80,6 +84,10 @@ class Movie:
     def __str__(self):
         return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre+" "+str(+self.__rents)+" "+str(self.__avb)
     
+    def __eq__(self, other):
+        return self.__id == other.__id
+
+
 class Rent:
     def __init__(self,id,client,movie):
         self.__id=id
@@ -106,6 +114,10 @@ class Rent:
     
     def __str__(self):
         return str(self.__id)+" "+str(self.__client.get_name())+": "+str(self.__movie.get_name())
+
+    def __eq__(self, other):
+        return self.__id == other.__id
+
 
 class ValidateMovie:
     def validate(self, movie):

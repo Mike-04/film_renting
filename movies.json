@@ -12,8 +12,8 @@
     "name": "Attack on Titan",
     "description": "Humans fight for survival against giant titans",
     "genre": "Action",
-    "rents": 0,
-    "avb": true
+    "rents": 1,
+    "avb": false
   },
   {
     "id": 3,
