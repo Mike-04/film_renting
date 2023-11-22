@@ -1,8 +1,9 @@
 class Client:
-    def __init__(self,id,name,pid):
+    def __init__(self,id,name,pid,rents):
         self.__id=id
         self.__name=name
         self.__pid=pid
+        self.__rents=rents
 
     def set_id(self,id):
         self.__id=id
@@ -13,6 +14,9 @@ class Client:
     def set_pid(self,pid):
         self.__pid=pid
 
+    def set_rents(self,rents):
+        self.__rents=rents
+
     def get_id(self):
         return self.__id
 
@@ -21,16 +25,21 @@ class Client:
 
     def get_pid(self):
         return self.__pid
+    
+    def get_rents(self):
+        return self.__rents
 
     def __str__(self):
-        return str(self.__id)+" "+self.__name+" "+self.__pid
+        return str(self.__id)+" "+self.__name+" "+self.__pid+" "+str(self.__rents)
 
 class Movie:
-    def __init__(self,id,name,description,genre):
+    def __init__(self,id,name,description,genre,rents,avb):
         self.__id=id
         self.__name=name
         self.__description=description
         self.__genre=genre
+        self.__rents=rents
+        self.__avb=avb
 
     def set_id(self,id):
         self.__id=id
@@ -44,6 +53,12 @@ class Movie:
     def set_description(self,genre):
         self.__genre=genre
 
+    def set_rents(self,rents):
+        self.__rents=rents
+
+    def set_avb(self,avb):
+        self.__avb=avb
+
     def get_id(self):
         return self.__id
 
@@ -55,9 +70,15 @@ class Movie:
 
     def get_genre(self):
         return self.__genre
+    
+    def get_rents(self):
+        return self.__rents
+    
+    def get_avb(self):
+        return self.__avb
 
     def __str__(self):
-        return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre
+        return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre+" "+str(+self.__rents)+" "+str(self.__avb)
     
 class Rent:
     def __init__(self,id,client,movie):

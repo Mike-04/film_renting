@@ -13,7 +13,9 @@ class MovieController:
 
     def create(self,name,description,genre):
         id=self.get_next_id()
-        movie=Movie(id,name,description,genre)
+        rents=0
+        avb=True
+        movie=Movie(id,name,description,genre,rents,avb)
         self.__val.validate(movie)
         self.__repo.add(movie)
 
@@ -72,7 +74,8 @@ class ClientController:
 
     def create(self,name,pid):
         id=self.get_next_id()
-        client=Client(id,name,pid)
+        rents=0
+        client=Client(id,name,pid,rents)
         self.__val.validate(client)
         self.__repo.add(client)
 

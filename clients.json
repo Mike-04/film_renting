@@ -2,61 +2,73 @@
   {
     "id": 1,
     "name": "John Doe",
-    "pid": "123456789"
+    "pid": "123456789",
+    "rents": 1
   },
   {
     "id": 2,
     "name": "Jane Smith",
-    "pid": "987654321"
+    "pid": "987654321",
+    "rents": 0
   },
   {
     "id": 3,
     "name": "Bob Johnson",
-    "pid": "456789123"
+    "pid": "456789123",
+    "rents": 0
   },
   {
     "id": 4,
     "name": "Alice Williams",
-    "pid": "789123456"
+    "pid": "789123456",
+    "rents": 0
   },
   {
     "id": 5,
     "name": "Charlie Brown",
-    "pid": "321654987"
+    "pid": "321654987",
+    "rents": 0
   },
   {
     "id": 6,
     "name": "Eva Martinez",
-    "pid": "654321789"
+    "pid": "654321789",
+    "rents": 0
   },
   {
     "id": 7,
     "name": "David Martinez",
-    "pid": "234567890"
+    "pid": "234567890",
+    "rents": 0
   },
   {
     "id": 8,
     "name": "Grace Turner",
-    "pid": "876543210"
+    "pid": "876543210",
+    "rents": 0
   },
   {
     "id": 9,
     "name": "Michael Jackson",
-    "pid": "543210987"
+    "pid": "543210987",
+    "rents": 0
   },
   {
     "id": 10,
     "name": "Sophia Davis",
-    "pid": "890123456"
+    "pid": "890123456",
+    "rents": 0
   },
   {
     "id": 11,
     "name": "Chris Jayson",
-    "pid": "124123532"
+    "pid": "124123532",
+    "rents": 0
   },
   {
     "id": 12,
     "name": "Johnny Bravo",
-    "pid": "1214241424"
+    "pid": "1214241424",
+    "rents": 0
   }
 ]

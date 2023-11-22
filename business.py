@@ -39,7 +39,7 @@ class MovieRepository:
                 jdata = json.load(file)
             print(f'Data successfully loaded from {filename}')
             for item in jdata:
-                movie = Movie(item['id'], item['name'], item['description'], item['genre'])
+                movie = Movie(item['id'], item['name'], item['description'], item['genre'],item['rents'],item['avb'])
                 self.add(movie)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
@@ -51,7 +51,9 @@ class MovieRepository:
                 "id": movie.get_id(),
                 "name": movie.get_name(),
                 "description": movie.get_description(),
-                "genre": movie.get_genre()
+                "genre": movie.get_genre(),
+                "rents":movie.get_rents(),
+                "avb":movie.get_avb()
             })
 
         try:
@@ -96,7 +98,7 @@ class ClientRepository:
                 jdata = json.load(file)
             print(f'Data successfully loaded from {filename}')
             for item in jdata:
-                client = Client(item['id'], item['name'], item['pid'])
+                client = Client(item['id'], item['name'], item['pid'],item['rents'])
                 self.add(client)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
@@ -107,7 +109,8 @@ class ClientRepository:
             client_data.append({
                 "id": client.get_id(),
                 "name": client.get_name(),
-                "pid": client.get_pid()
+                "pid": client.get_pid(),
+                "rents": client.get_rents()
             })
 
         try:

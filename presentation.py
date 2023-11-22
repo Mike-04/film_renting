@@ -57,10 +57,45 @@ class Console:
         print("Selected movie is",movies[0])
         if(self.__get_confirm()):
             try:
+                movies[0].set_rents(movies[0].get_rents()+1)
+                clients[0].set_rents(clients[0].get_rents()+1)
+                movies[0].set_avb(False)
+                print(movies[0].get_rents())
+                print(clients[0].get_rents())
                 self.__rctr.create(clients[0],movies[0])
             except Exception as ex:
                 print (ex)
     
+    def __returnRents(self,a):
+        rents=self.__rctr.get_all()
+        rents_del=[]
+        if len(a)==4:
+            propc={'property':a[0],'value':a[1]}
+            propm={'property':a[2],'value':a[3]}
+            clients=[]
+            movies=[]
+            for rent in rents:
+                movie=rent.get_movie()
+                client=rent.get_client()
+                clients.append(client)
+                movies.append(movie)
+            for movie in movies:
+                print(movie)
+            for client in clients:
+                print(client)
+            for rent in rents:
+                if rent.get_movie() in movies or rent.get_client in clients:
+                    rents_del.append(rent)
+                    rent.get_movie().set_avb(True)
+        elif len(a)==1:
+            id=int(a[0])
+            for rent in rents:
+                if rent.get_id() == id:
+                    print(rent.get_id())
+                    rents_del.append(rent)
+                    rent.get_movie().set_avb(True)
+        self.__rctr.delete(rents_del)   
+
     def __printMovies(self,movies):
         for movie in movies:
             print(movie)
@@ -105,20 +140,23 @@ class Console:
                             case _:
                                 print("Invalid descriptor!")
                     case "del":
-                        prop={'property':a[0],'value':a[1]}
                         match d:
                             case "c":
+                                prop={'property':a[0],'value':a[1]}
                                 clients=self.__cctr.search(prop)
                                 print("Folowing entries will be deleted:")
                                 self.__printClients(clients)
                                 if(self.__get_confirm()):
                                     self.__cctr.delete(clients)
                             case "m":
+                                prop={'property':a[0],'value':a[1]}
                                 movies=self.__cctr.search(prop)
                                 print("Folowing entries will be deleted:")
                                 self.__printClients(movies)
                                 if(self.__get_confirm()):
                                     self.__mctr.delete(movies)
+                            case "r":
+                                self.__returnRents(a)
                             case _:
                                 print("Invalid descriptor!")
                     case "view":
