@@ -1,20 +1,48 @@
 class Client:
     def __init__(self,id,name,pid,rents):
+        '''
+        Parameters:
+        id (int): The unique identifier for the client.
+        name (str): The name of the client.
+        pid (str): The personal identification number of the client.
+        rents (int): The number of rents associated with the client.
+        Description: Initializes a new Client object with the provided parameters.
+        '''
         self.__id=id
         self.__name=name
         self.__pid=pid
         self.__rents=rents
 
     def set_id(self,id):
+        '''
+        Parameters:
+        id (int): The new unique identifier for the client.
+        Description: Sets the unique identifier for the client to the specified value.
+        '''
         self.__id=id
 
     def set_name(self,name):
+        '''
+        Parameters:
+        name (str): The new name for the client.
+        Description: Sets the name of the client to the specified value.
+        '''
         self.__name=name
 
     def set_pid(self,pid):
+        '''
+        Parameters:
+        pid (str): The new personal identification number for the client.
+        Description: Sets the personal identification number of the client to the specified value.
+        '''
         self.__pid=pid
 
     def set_rents(self,rents):
+        ''''
+        Parameters:
+        rents (int): The new number of rents associated with the client.
+        Description: Sets the number of rents associated with the client to the specified value.
+        '''
         self.__rents=rents
 
     def get_id(self):
@@ -138,3 +166,10 @@ class ValidateClient:
         if len(errors)>0:
             raise errors
     
+class ValidateRent:
+    def validate(self, rent):
+        errors = []
+        if (rent.get_id()==""): errors.append("Id can not be empty!")
+        if (rent.get_movie().get_avb()==False): errors.append("Movie must be available")
+        if len(errors)>0:
+            raise ValueError

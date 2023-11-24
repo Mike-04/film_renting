@@ -1,11 +1,11 @@
-from domain import ValidateClient,ValidateMovie
+from domain import ValidateClient,ValidateMovie,ValidateRent
 from business import MovieRepository,ClientRepository,RentRepository
 from service import MovieController,ClientController,RentController
 
 from presentation import Console
 
 rrep=RentRepository()
-rval=[]
+rval=ValidateRent()
 rctr=RentController(rval,rrep)
 
 mrep=MovieRepository()

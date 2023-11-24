@@ -145,6 +145,7 @@ class RentController:
     def create(self,client,movie):
         id=self.get_next_id()
         rent=Rent(id,client,movie)
+        self.__val.validate(rent)
         self.__repo.add(rent)
 
     def get_next_id(self):
