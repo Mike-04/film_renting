@@ -3,7 +3,6 @@ from domain import Movie
 from domain import Client
 import os
 
-
 class Console:
     def __init__(self, mctr,cctr,rctr):
         """
@@ -45,6 +44,12 @@ class Console:
         pid = a[1].strip()
         try:
             self.__cctr.create(name,pid)
+        except Exception as ex:
+            print (ex)
+
+    def __createrClient(self,a):
+        try:
+            self.__cctr.creater(int(a))
         except Exception as ex:
             print (ex)
     
@@ -133,6 +138,8 @@ class Console:
                                 self.__createdMovie(a)
                             case "r":
                                 self.__createdRent(a)
+                            case "rc":
+                                self.__createrClient(a[0])
                             case _:
                                 print("Invalid descriptor!")
                     case "src":

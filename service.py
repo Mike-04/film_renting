@@ -1,7 +1,11 @@
 from domain import Movie,Client,Rent
+import random
 
 #movie={'id':int,'name':string,'description':string,'genre':genre}
 #client={'id':int,'name':string,'pid':string}
+
+first_names = ["John", "Jane", "Michael", "Emily", "David", "Sophia", "Daniel", "Olivia", "Christopher", "Emma"]
+last_names = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor"]
 
 
 class MovieController:
@@ -72,6 +76,14 @@ class ClientController:
         self.__repo = repo
         self.__rc=rrctr
 
+    def creater(self,nr):
+        for i in range(0,nr):
+            name=random.choice(first_names)+" "+random.choice(first_names)
+            pid=""
+            for i in range(0,10):
+                pid=pid+str(random.randint(0,10))
+            self.create(name,pid)
+            
     def create(self,name,pid):
         id=self.get_next_id()
         rents=0
