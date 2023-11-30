@@ -117,31 +117,31 @@ class Movie:
 
 
 class Rent:
-    def __init__(self,id,client,movie):
+    def __init__(self,id,cid,mid):
         self.__id=id
-        self.__client=client
-        self.__movie=movie
+        self.__cid=cid
+        self.__mid=mid
     
     def get_id(self):
         return self.__id
 
-    def get_movie(self):
-        return self.__movie
+    def get_mid(self):
+        return self.__mid
 
-    def get_client(self):
-        return self.__client
+    def get_cid(self):
+        return self.__cid
     
     def set_id(self,id):
         self.__id=id
 
-    def set_movie(self,movie):
-        self.__movie=movie
+    def set_mid(self,mid):
+        self.__mid=mid
 
-    def set_client(self,client):
-        self.__client=client
-    
+    def set_cid(self,cid):
+        self.__cid=cid
+
     def __str__(self):
-        return str(self.__id)+" "+str(self.__client.get_name())+": "+str(self.__movie.get_name())
+        return str(self.__id)+" "+str(self.__cid)+" "+str(self.__mid)
 
     def __eq__(self, other):
         return self.__id == other.__id

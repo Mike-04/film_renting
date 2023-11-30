@@ -1,5 +1,6 @@
 from domain import Movie,Client,Rent
 import random
+from rent_dto import RentDTO
 
 #movie={'id':int,'name':string,'description':string,'genre':genre}
 #client={'id':int,'name':string,'pid':string}
@@ -10,10 +11,12 @@ last_names = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller
 
 class MovieController:
     
-    def __init__(self,val,repo,rrctr):
+    def __init__(self,val,repo):
         self.__val = val
         self.__repo = repo
-        self.__rc=rrctr
+
+    def set_other_controllers(self, rctr):
+        self.__rctr = rctr
 
     def create(self,name,description,genre):
         id=self.get_next_id()
@@ -33,9 +36,9 @@ class MovieController:
     def delete(self, movies):
         for movie in movies:
             movie_id=movie.get_id()
-            associated_rents = [rent for rent in self.__rc.get_all() if rent.get_movie().get_id() == movie_id]
+            associated_rents = [rent for rent in self.__rctr.get_all() if rent.get_mid() == movie_id]
             self.__repo.remove(movie_id)
-            self.__rc.delete(associated_rents)
+            self.__rctr.delete(associated_rents)
 
     def modify(self, id, name, description, genre):
         movie = Movie(id,name,description,genre)
@@ -71,10 +74,12 @@ class MovieController:
 
 
 class ClientController:
-    def __init__(self,val,repo,rrctr):
+    def __init__(self,val,repo):
         self.__val = val
         self.__repo = repo
-        self.__rc=rrctr
+
+    def set_other_controllers(self, rctr):
+        self.__rctr = rctr
 
     def creater(self,nr):
         for i in range(0,nr):
@@ -101,9 +106,9 @@ class ClientController:
     def delete(self, clients):
         for client in clients:
             client_id=client.get_id()
-            associated_rents = [rent for rent in self.__rc.get_all() if rent.get_client().get_id() == client_id]
+            associated_rents = [rent for rent in self.__rctr.get_all() if rent.get_cid() == client_id]
             self.__repo.remove(client_id)
-            self.__rc.delete(associated_rents)
+            self.__rctr.delete(associated_rents)
 
     def modify(self,name,pid):
         client = Client(id,name,pid)
@@ -138,15 +143,25 @@ class ClientController:
         self.__repo.save_to_file("clients.json")
 
 class RentController:
-    def __init__(self,val,repo):
-        self.__val = val
+    def __init__(self,repo,mctr,cctr):
         self.__repo = repo
+        self.__mctr=mctr
+        self.__cctr=cctr
 
     def create(self,client,movie):
         id=self.get_next_id()
-        rent=Rent(id,client,movie)
-        self.__val.validate(rent)
+        cid=client.get_id()
+        mid=movie.get_id()
+        rent=Rent(id,cid,mid)
+        #self.__val.validate(rent)
         self.__repo.add(rent)
+
+    def get_rent_dto(self, rent):
+        rent = self.__repo.find()
+        client = self.__cctr.__repo.find(rent.get_cid())
+        movie = self.__mctr.__repo.find(rent.get_mid())
+        rent_dto = RentDTO.from_rent(rent, client, movie)
+        return rent_dto.to_dict()
 
     def get_next_id(self):
         existing_ids = {rent.get_id() for rent in self.__repo.get_all()}

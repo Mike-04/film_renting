@@ -5,11 +5,6 @@ import os
 
 class Console:
     def __init__(self, mctr,cctr,rctr):
-        """
-          Initialise UI
-          ctr StudentControler
-          ctrgr GradeController
-        """
         self.__mctr = mctr
         self.__cctr = cctr
         self.__rctr = rctr
@@ -38,6 +33,15 @@ class Console:
             self.__mctr.create(name,description,genre)
         except Exception as ex:
             print (ex)
+
+    def __createdRent(self,a):
+        propc={'property':a[0],'value':a[1]}
+        propm={'property':a[2],'value':a[3]}
+        movies=self.__mctr.search(propm)
+        clients=self.__cctr.search(propc)
+        print("The following client:",clients[0],"will recive the following movie:",movies[0])
+        if(self.__get_confirm()):
+            self.__rctr.create(clients[0],movies[0])
     
     def __createdClient(self,a):
         name = a[0].strip()
@@ -52,60 +56,7 @@ class Console:
             self.__cctr.creater(int(a))
         except Exception as ex:
             print (ex)
-    
-    def __createdRent(self,a):
-        propc={'property':a[0],'value':a[1]}
-        propm={'property':a[2],'value':a[3]}
-        clients=self.__cctr.search(propc)
-        print("Selected client is",clients[0])
-        movies=self.__mctr.search(propm)
-        print("Selected movie is",movies[0])
-        if(self.__get_confirm()):
-            try:
-                self.__rctr.create(clients[0],movies[0])
-                movies[0].set_rents(movies[0].get_rents()+1)
-                clients[0].set_rents(clients[0].get_rents()+1)
-                movies[0].set_avb(False)
-            except Exception as ex:
-                print (ex)
-    
-    def __returnRents(self,a):
-        rents=self.__rctr.get_all()
-        rents_del=[]
-        if len(a)==4:
-            propc={'property':a[0],'value':a[1]}
-            propm={'property':a[2],'value':a[3]}
-            clients=[]
-            movies=[]
-            rent_movies=[]
-            movies=self.__mctr.search(propm)
-            clients=self.__cctr.search(propc)
-            print("The following rents will be returned:")
-            for rent in rents:
-                if rent.get_movie() in movies or rent.get_client() in clients:
-                    print(rent)
-            if(self.__get_confirm()):
-                for rent in rents:
-                    if rent.get_movie() in movies or rent.get_client() in clients:
-                        rents_del.append(rent)
-                        rent_movies.append(rent.get_movie())
-                for movie in movies:
-                    if movie in rent_movies:
-                        movie.set_avb(True)
-                self.__rctr.delete(rents_del) 
-        elif len(a)==1:
-            id=int(a[0])
-            print("The following rents will be returned:")
-            for rent in rents:
-                if rent.get_id() == id:
-                    print(rent)
-            if(self.__get_confirm()):
-                for rent in rents:
-                    if rent.get_id() == id:
-                        rents_del.append(rent)
-                        rent.get_movie().set_avb(True)
-                    self.__rctr.delete(rents_del)    
-
+            
     def __printMovies(self,movies):
         for movie in movies:
             print(movie)
@@ -116,11 +67,12 @@ class Console:
 
     def __printRents(self,rents):
         for rent in rents:
+            rent=self.__rctr.get_rent_dto(rent.get_id())
             print(rent)
     
     def __get_confirm(self):
-        input_string=input("Type CONFIRM to confirm the operation:")
-        if(input_string=="CONFIRM"):
+        input_string=input("Type confirm to confirm the operation:")
+        if(input_string=="confirm"):
             return 1
         return 0
 
@@ -210,6 +162,6 @@ class Console:
                         case _:
                             print("Function error")
                             print("Command:",c,"\nDescriptor:",d,"\nArgs:",a) 
-            except:
-                print("error")
+            except Exception as ex:
+                print(ex)
 

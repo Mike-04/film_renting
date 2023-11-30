@@ -1,20 +1,31 @@
 from domain import ValidateClient,ValidateMovie,ValidateRent
-from business import MovieRepository,ClientRepository,RentRepository
-from service import MovieController,ClientController,RentController
+from repository import MovieRepository,ClientRepository,RentRepository
+from controller import MovieController,ClientController,RentController
 
-from presentation import Console
+from ui import Console
 
-rrep=RentRepository()
-rval=ValidateRent()
-rctr=RentController(rval,rrep)
+class DependencyContainer:
+    def __init__(self):
+        self.mrep = MovieRepository()
+        self.mval = ValidateMovie()
+        self.mctr = MovieController(self.mval, self.mrep)
 
-mrep=MovieRepository()
-mval=ValidateMovie()
-mctr=MovieController(mval,mrep,rctr)
+        self.crep = ClientRepository()
+        self.cval = ValidateClient()
+        self.cctr = ClientController(self.cval, self.crep)
 
-crep=ClientRepository()
-cval=ValidateClient()
-cctr=ClientController(cval,crep,rctr)
+        self.rrep = RentRepository()
+        self.rval = ValidateRent()
+        self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)
 
-ui=Console(mctr,cctr,rctr)
-ui.startUI()
+        self.mctr.set_other_controllers(self.rctr)
+        self.cctr.set_other_controllers(self.rctr)
+
+        self.ui = Console(self.mctr, self.cctr, self.rctr)
+
+    def start_application(self):
+        self.ui.startUI()
+
+# Usage
+dependency_container = DependencyContainer()
+dependency_container.start_application()

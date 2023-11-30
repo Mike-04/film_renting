@@ -155,11 +155,9 @@ class RentRepository:
             print(f'Data successfully loaded from {filename}')
             for item in jdata:
                 id=item['id']
-                movied=item['movie']
-                clientd=item['client']
-                client = Client(clientd['id'], clientd['name'], clientd['pid'],clientd['rents'])
-                movie = Movie(movied['id'], movied['name'], movied['description'], movied['genre'],movied['rents'],movied['avb'])
-                rent= Rent(id,client,movie)
+                mid=item['mid']
+                cid=item['cid']
+                rent=Rent(id,cid,mid)
                 self.add(rent)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
@@ -167,25 +165,11 @@ class RentRepository:
     def save_to_file(self, filename):
         rent_data=[]
         for rent in self.__rents:
-            client=rent.get_client()
-            movie=rent.get_movie()
             rent_data.append({
                 "id": rent.get_id(),
-                "client":{
-                "id":client.get_id(),
-                "name":client.get_name(),
-                "pid":client.get_pid(),
-                "rents":client.get_rents()
-                },
-                "movie":{
-                "id":movie.get_id(),
-                "name":movie.get_name(),
-                "description":movie.get_description(),
-                "genre":movie.get_genre(),
-                "rents":movie.get_rents(),  
-                "avb":movie.get_avb()  
-                }
-            })
+                "cid":rent.get_cid(),
+                "mid":rent.get_mid()
+                })
         try:
             with open(filename, 'w') as file:
                 json.dump(rent_data, file, indent=2)
