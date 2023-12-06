@@ -67,14 +67,26 @@ class Console:
 
     def __printRents(self,rents):
         for rent in rents:
-            rent=self.__rctr.get_rent_dto(rent.get_id())
-            print(rent)
+            rent=self.__rctr.get_rent_dto(rent)
+            print(rent["client"]["name"],"has",rent["movie"]["name"])
     
     def __get_confirm(self):
         input_string=input("Type confirm to confirm the operation:")
         if(input_string=="confirm"):
             return 1
         return 0
+
+    def __rep1(self):
+        clients=self.__cctr.get_r1()
+        self.__printClients(clients)
+
+    def __rep2(self):
+        movies=self.__mctr.get_r2()
+        self.__printMovies(movies)
+
+    def __rep3(self):
+        clients=self.__cctr.get_r3()
+        self.__printClients(clients)
 
     def startUI(self):
         while True:
@@ -127,7 +139,7 @@ class Console:
                                     prop={'property':a[0],'value':a[1]}
                                     movies=self.__cctr.search(prop)
                                     print("Folowing entries will be deleted:")
-                                    self.__printClients(movies)
+                                    self.__printMovies(movies)
                                     if(self.__get_confirm()):
                                         self.__mctr.delete(movies)
                                 case "r":
@@ -141,10 +153,20 @@ class Console:
                                     self.__printClients(clients)
                                 case "m":
                                     movies=self.__mctr.get_all()
-                                    self.__printClients(movies)
+                                    self.__printMovies(movies)
                                 case "r":
                                     rents=self.__rctr.get_all()
                                     self.__printRents(rents)
+                                case _:
+                                    print("Invalid descriptor!")
+                        case "rep":
+                            match d:
+                                case "1":
+                                    self.__rep1()
+                                case "2":
+                                    self.__rep2()
+                                case "3":
+                                    self.__rep3()
                                 case _:
                                     print("Invalid descriptor!")
                         case "save":

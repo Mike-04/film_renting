@@ -110,7 +110,7 @@ class Movie:
         return self.__avb
 
     def __str__(self):
-        return str(self.__id)+" "+self.__name+" "+self.__description+" "+self.__genre+" "+str(+self.__rents)+" "+str(self.__avb)
+        return str(self.__id)+" "+self.__name+" "+self.__genre+" "+str(+self.__rents)+" "+str(self.__avb)+"\n"+self.__description
     
     def __eq__(self, other):
         return self.__id == other.__id

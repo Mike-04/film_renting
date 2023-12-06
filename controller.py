@@ -18,6 +18,10 @@ class MovieController:
     def set_other_controllers(self, rctr):
         self.__rctr = rctr
 
+    def find(self,id):
+        movie=self.__repo.find(id)
+        return movie
+
     def create(self,name,description,genre):
         id=self.get_next_id()
         rents=0
@@ -46,6 +50,12 @@ class MovieController:
 
     def get_all(self):
         return self.__repo.get_all()
+    
+    def get_r2(self):
+        movies=self.__repo.get_all()
+        movies=[movie for movie in movies if movie.get_rents() > 0]
+        movies.sort(key=lambda movie: (movie.get_rents()))
+        return movies
 
     def search(self, prop):
         movies = self.__repo.get_all()
@@ -80,6 +90,10 @@ class ClientController:
 
     def set_other_controllers(self, rctr):
         self.__rctr = rctr
+
+    def find(self,id):
+        client=self.__repo.find(id)
+        return client
 
     def creater(self,nr):
         for i in range(0,nr):
@@ -117,6 +131,22 @@ class ClientController:
     def get_all(self):
         return self.__repo.get_all()
 
+    def get_r1(self):
+        clients=self.__repo.get_all()
+        clients=[client for client in clients if client.get_rents() > 0]
+        clients.sort(key=lambda client: (client.get_name(), client.get_rents()))
+        return clients
+    
+    def get_r3(self):
+        clients=self.__repo.get_all()
+        list_length = len(clients)
+        clients=[client for client in clients if client.get_rents() > 0]
+        clients.sort(key=lambda client: (client.get_rents(),client.get_name()))
+        percentage = 30
+        elements_to_keep = int(list_length * (percentage / 100))
+
+        return clients[:elements_to_keep]
+
     def search(self, prop):
         clients = self.__repo.get_all()
         matching_clients = []
@@ -143,10 +173,14 @@ class ClientController:
         self.__repo.save_to_file("clients.json")
 
 class RentController:
-    def __init__(self,repo,mctr,cctr):
+    def __init__(self,val,repo,mctr,cctr):
         self.__repo = repo
         self.__mctr=mctr
         self.__cctr=cctr
+
+    def find(self,id):
+        rent=self.__repo.find(id)
+        return rent
 
     def create(self,client,movie):
         id=self.get_next_id()
@@ -157,9 +191,8 @@ class RentController:
         self.__repo.add(rent)
 
     def get_rent_dto(self, rent):
-        rent = self.__repo.find()
-        client = self.__cctr.__repo.find(rent.get_cid())
-        movie = self.__mctr.__repo.find(rent.get_mid())
+        client = self.__cctr.find(rent.get_cid())
+        movie = self.__mctr.find(rent.get_mid())
         rent_dto = RentDTO.from_rent(rent, client, movie)
         return rent_dto.to_dict()
 
@@ -178,6 +211,7 @@ class RentController:
     def modify(self,client,movie):
         rent = rent(id,client,movie)
         self.__repo.mod(id, rent)
+
 
     def get_all(self):
         return self.__repo.get_all()
