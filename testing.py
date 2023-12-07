@@ -1,41 +1,94 @@
-import service as s
-import business as b
-import domain as d
-import random as r
-import string
+from controller import MovieController, ClientController, RentController
+from repository import MovieRepository, ClientRepository, RentRepository
+from domain import ValidateMovie, ValidateClient, ValidateRent
 
-def run_tests():
-    for test in range (0,100):
-        id=test
-        name=''.join(r.choices(string.ascii_lowercase, k=5))
-        description=''.join(r.choices(string.ascii_lowercase, k=5))
-        genre=''.join(r.choices(string.ascii_lowercase, k=5))
-        pid=''.join(r.choices(string.ascii_lowercase, k=5))
-        print(id,name,description,genre,pid)
-        client=s.create_client(id,name,pid)
-        movie=s.create_movie(id,name,description,genre)
-        assert(client.get_id()==id)
-        assert(client.get_name()==name)
-        assert(client.get_pid()==pid)
-        assert(movie.get_id()==id)
-        assert(movie.get_name()==name)
-        assert(movie.get_description()==description)
-        assert(movie.get_genre()==genre)
-        movies_old=b.get_movies()
-        clients_old=b.get_clients()
-        b.ADD_client(client)
-        b.ADD_movie(movie)
-        movies=b.get_movies()
-        clients=b.get_clients()
-        movies_old.append(movie)
-        clients_old.append(client)
-        assert(movies==movies_old)
-        assert(clients==clients_old)
-        b.DEL_client(id)
-        b.DEL_movie(id)
-        movies=b.get_movies()
-        clients=b.get_clients()
-        assert(movies==[])
-        assert(clients==[])
+class TestContainer:
+    def __init__(self):
+        '''
+        Description:
+            Initializes a new TestContainer object with MovieController, ClientController, and RentController instances.
+        '''
+        self.mrep = MovieRepository()
+        self.mval = ValidateMovie()
+        self.mctr = MovieController(self.mval, self.mrep)
 
-run_tests()
+        self.crep = ClientRepository()
+        self.cval = ValidateClient()
+        self.cctr = ClientController(self.cval, self.crep)
+
+        self.rrep = RentRepository()
+        self.rval = ValidateRent()
+        self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)
+
+        self.mctr.set_other_controllers(self.rctr)
+        self.cctr.set_other_controllers(self.rctr)
+
+    def test_movie_controller(self):
+        '''
+        Description:
+            Performs tests for the MovieController.
+        '''
+        # Test creating movies
+        for i in range(5):
+            self.mctr.create(f"Movie{i}", f"Description{i}", f"Genre{i}")
+            movies = self.mrep.get_all()
+            name = movies[i].get_name()
+            desc = movies[i].get_description()
+            genre = movies[i].get_genre()
+            assert(name == f"Movie{i}" and desc == f"Description{i}" and genre == f"Genre{i}")
+
+        # Test deleting movies
+        movies_to_delete = self.mrep.get_all()
+        self.mctr.delete(movies_to_delete)
+        assert len(self.mrep.get_all()) == 0
+
+    def test_client_controller(self):
+        '''
+        Description:
+            Performs tests for the ClientController.
+        '''
+        # Test creating clients
+        for i in range(5):
+            self.cctr.create(f"Client{i}", f"PID{i}")
+            clients = self.crep.get_all()
+            name = clients[i].get_name()
+            pid = clients[i].get_pid()
+            assert(name == f"Client{i}" and pid == f"PID{i}")
+
+        # Test deleting clients
+        clients_to_delete = self.crep.get_all()
+        self.cctr.delete(clients_to_delete)
+        clients = self.crep.get_all()
+        assert len(clients) == 0
+
+    def test_rent_controller(self):
+        '''
+        Description:
+            Performs tests for the RentController.
+        '''
+        # Test creating rents
+        for i in range(5):
+            self.cctr.create(f"Client{i}", f"PID{i}")
+
+        for i in range(5):
+            self.mctr.create(f"Movie{i}", f"Description{i}", f"Genre{i}")
+
+        for i in range(5):
+            movie = self.mrep.get_all()[i]  # Assuming at least one movie is available
+            client = self.crep.get_all()[i]  # Assuming at least one client exists
+            self.rctr.create(client, movie)
+            rents = self.rrep.get_all()
+
+        # Test deleting rents
+        rents_to_delete = self.rrep.get_all()
+        self.rctr.delete(rents_to_delete)
+        assert len(self.rrep.get_all()) == 0
+
+    def run_tests(self):
+        '''
+        Description:
+            Runs all the test methods in the TestContainer.
+        '''
+        self.test_movie_controller()
+        self.test_client_controller()
+        self.test_rent_controller()
