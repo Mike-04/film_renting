@@ -229,7 +229,7 @@ class Movie:
 
 
 class Rent:
-    def __init__(self,id,cid,mid):
+    def __init__(self,id,cid,mid,comp):
         '''
         Parameters:
             id (int): The unique identifier for the rent.
@@ -241,6 +241,7 @@ class Rent:
         self.__id=id
         self.__cid=cid
         self.__mid=mid
+        self.__comp=comp
     
     def get_id(self):
         '''
@@ -262,6 +263,13 @@ class Rent:
             int: The unique identifier of the client associated with the rent.
         '''
         return self.__cid
+    
+    def get_comp(self):
+        '''
+        Returns:
+            int: The unique identifier of the client associated with the rent.
+        '''
+        return self.__comp
     
     def set_id(self,id):
         '''
@@ -290,12 +298,21 @@ class Rent:
         '''
         self.__cid=cid
 
+    def set_comp(self,comp):
+        '''
+        Parameters:
+            cid (int): The new unique identifier of the client associated with the rent.
+        Description:
+            Sets the unique identifier of the client associated with the rent to the specified value.
+        '''
+        self.__comp=comp
+
     def __str__(self):
         '''
         Returns:
             str: A formatted string representation of the Rent object.
         '''
-        return str(self.__id)+" "+str(self.__cid)+" "+str(self.__mid)
+        return str(self.__id)+" "+str(self.__cid)+" "+str(self.__mid)+" "+str(self.__comp)
 
     def __eq__(self, other):
         '''

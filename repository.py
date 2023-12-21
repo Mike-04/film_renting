@@ -298,7 +298,8 @@ class RentRepository:
                 id=item['id']
                 mid=item['mid']
                 cid=item['cid']
-                rent=Rent(id,cid,mid)
+                comp=item['comp']
+                rent=Rent(id,cid,mid,comp)
                 self.add(rent)
         except Exception as e:
             print(f'Error loading data from {filename}: {e}')
@@ -315,7 +316,8 @@ class RentRepository:
             rent_data.append({
                 "id": rent.get_id(),
                 "cid":rent.get_cid(),
-                "mid":rent.get_mid()
+                "mid":rent.get_mid(),
+                "comp":rent.get_comp()
                 })
         try:
             with open(filename, 'w') as file:

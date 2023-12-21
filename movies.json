@@ -5,7 +5,7 @@
     "description": "A cyberpunk-themed anime",
     "genre": "Sci-Fi",
     "rents": 1,
-    "avb": false
+    "avb": true
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "description": "Humans fight for survival against giant titans",
     "genre": "Action",
     "rents": 1,
-    "avb": false
+    "avb": true
   },
   {
     "id": 3,

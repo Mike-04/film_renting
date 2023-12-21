@@ -383,9 +383,21 @@ class RentController:
         id = self.get_next_id()
         cid = client.get_id()
         mid = movie.get_id()
-        rent = Rent(id, cid, mid)
+        comp = False
+        rent = Rent(id, cid, mid,comp)
         self.__val.validate(rent, movie)
         self.__repo.add(rent)
+
+    def finish(self,id):
+        '''
+        Parameters:
+            client (Client): The client associated with the new rent.
+            movie (Movie): The movie associated with the new rent.
+        Description:
+            Creates a new Rent object with the provided client and movie, validates it, and adds it to the repository.
+        '''
+        rent=self.__repo.find(id)
+        rent.set_comp(True)
 
     def get_rent_dto(self, rent):
         '''
@@ -398,8 +410,28 @@ class RentController:
         '''
         client = self.__cctr.find(rent.get_cid())
         movie = self.__mctr.find(rent.get_mid())
-        rent_dto = RentDTO.from_rent(rent, client, movie)
+        comp=rent.get_comp()
+        rent_dto = RentDTO.from_rent(rent, client, movie,comp)
         return rent_dto.to_dict()
+
+    def get_r4(self):
+        movies=[]
+        max_m=self.__mctr.get_next_id()
+        movie_ids=[]
+        for i in range(0,max_m+1):
+            movie_ids.append({i:0})
+        rents = self.__repo.get_all()
+        for rent in rents:
+            rent = self.get_rent_dto(rent)
+            movie_id = int(rent["movie"]["id"])
+            if(int(rent["client"]["pid"][:1])%2==1):
+                movie_ids[movie_id][movie_id]+=1
+        sorted_movie_ids = sorted(movie_ids, key=lambda x: list(x.values())[0], reverse=True)
+        first = [list(d.keys())[0] for d in sorted_movie_ids[:5]]
+        for id in first:
+            movies.append(self.__mctr.find(id))
+        return movies
+         
 
     def get_next_id(self):
         '''

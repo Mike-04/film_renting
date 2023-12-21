@@ -17,7 +17,6 @@ class DependencyContainer:
         self.crep = ClientRepository()
         self.cval = ValidateClient()
         self.cctr = ClientController(self.cval, self.crep)
-
         self.rrep = RentRepository()
         self.rval = ValidateRent()
         self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)

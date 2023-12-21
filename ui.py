@@ -74,6 +74,14 @@ class Console:
             except Exception as ex:
                 print(ex)
 
+    def __returnRents(self, a):
+        if self.__get_confirm():
+            try:
+                id=int(a[0])
+                self.__rctr.finish(id)
+            except Exception as ex:
+                print(ex)
+
     def __createdClient(self, a):
         '''
         Parameters:
@@ -129,7 +137,8 @@ class Console:
         '''
         for rent in rents:
             rent = self.__rctr.get_rent_dto(rent)
-            print(rent["client"]["name"], "has", rent["movie"]["name"])
+            if(rent["comp"]==False):
+                print(rent["client"]["name"], "has", rent["movie"]["name"])
 
     def __get_confirm(self):
         '''
@@ -166,6 +175,14 @@ class Console:
         '''
         clients = self.__cctr.get_r3()
         self.__printClients(clients)
+    
+    def __rep4(self):
+        '''
+        Description:
+            Prints a report of clients with rents, limited to 30%.
+        '''
+        movies = self.__rctr.get_r4()
+        self.__printMovies(movies)
 
     def startUI(self):
         '''
@@ -250,6 +267,8 @@ class Console:
                                 self.__rep2()
                             case "3":
                                 self.__rep3()
+                            case "4":
+                                self.__rep4()
                             case _:
                                 print("Invalid descriptor!")
                     case "save":

@@ -3,7 +3,7 @@ from domain import Client
 from domain import Rent
 
 class RentDTO:
-    def __init__(self, rent_id, client, movie):
+    def __init__(self, rent_id, client, movie,comp):
         '''
         Parameters:
             rent_id (int): The unique identifier for the rent.
@@ -15,6 +15,7 @@ class RentDTO:
         self.rent_id = rent_id
         self.client = client
         self.movie = movie
+        self.comp = comp
 
     def to_dict(self):
         '''
@@ -38,10 +39,11 @@ class RentDTO:
                 "rents": self.movie.get_rents(),
                 "avb": self.movie.get_avb(),
             },
+            "comp":self.comp,
         }
 
     @classmethod
-    def from_rent(cls, rent, client, movie):
+    def from_rent(cls, rent, client, movie,comp):
         '''
         Parameters:
             cls: The class itself.
@@ -53,4 +55,4 @@ class RentDTO:
         Description:
             Creates a new RentDTO object using the specified Rent, Client, and Movie objects.
         '''
-        return cls(rent.get_id(), client, movie)
+        return cls(rent.get_id(), client, movie,comp)
