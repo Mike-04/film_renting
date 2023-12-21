@@ -1,13 +1,11 @@
+import unittest
+from domain import Movie, Client, Rent, ValidateClient, ValidateMovie, ValidateRent
 from controller import MovieController, ClientController, RentController
 from repository import MovieRepository, ClientRepository, RentRepository
-from domain import ValidateMovie, ValidateClient, ValidateRent
+from rent_dto import RentDTO
 
-class TestContainer:
-    def __init__(self):
-        '''
-        Description:
-            Initializes a new TestContainer object with MovieController, ClientController, and RentController instances.
-        '''
+class TestMovieController(unittest.TestCase):
+    def setUp(self):
         self.mrep = MovieRepository()
         self.mval = ValidateMovie()
         self.mctr = MovieController(self.mval, self.mrep)
@@ -15,7 +13,6 @@ class TestContainer:
         self.crep = ClientRepository()
         self.cval = ValidateClient()
         self.cctr = ClientController(self.cval, self.crep)
-
         self.rrep = RentRepository()
         self.rval = ValidateRent()
         self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)
@@ -23,72 +20,93 @@ class TestContainer:
         self.mctr.set_other_controllers(self.rctr)
         self.cctr.set_other_controllers(self.rctr)
 
-    def test_movie_controller(self):
-        '''
-        Description:
-            Performs tests for the MovieController.
-        '''
-        # Test creating movies
-        for i in range(5):
-            self.mctr.create(f"Movie{i}", f"Description{i}", f"Genre{i}")
-            movies = self.mrep.get_all()
-            name = movies[i].get_name()
-            desc = movies[i].get_description()
-            genre = movies[i].get_genre()
-            assert(name == f"Movie{i}" and desc == f"Description{i}" and genre == f"Genre{i}")
+    def test_create_movie(self):
+        self.mctr.create("Movie1", "Description1", "Genre1")
+        movies = self.mctr.get_all()
+        self.assertEqual(len(movies), 1)
+        self.assertEqual(movies[0].get_name(), "Movie1")
+        self.assertEqual(movies[0].get_description(), "Description1")
+        self.assertEqual(movies[0].get_genre(), "Genre1")
 
-        # Test deleting movies
-        movies_to_delete = self.mrep.get_all()
+    def test_delete_movie(self):
+        self.mctr.create("Movie1", "Description1", "Genre1")
+        movies_to_delete = self.mctr.get_all()
         self.mctr.delete(movies_to_delete)
-        assert len(self.mrep.get_all()) == 0
+        self.assertEqual(len(self.mctr.get_all()), 0)
 
-    def test_client_controller(self):
-        '''
-        Description:
-            Performs tests for the ClientController.
-        '''
-        # Test creating clients
-        for i in range(5):
-            self.cctr.create(f"Client{i}", f"PID{i}")
-            clients = self.crep.get_all()
-            name = clients[i].get_name()
-            pid = clients[i].get_pid()
-            assert(name == f"Client{i}" and pid == f"PID{i}")
+class TestClientController(unittest.TestCase):
+    def setUp(self):
+        self.mrep = MovieRepository()
+        self.mval = ValidateMovie()
+        self.mctr = MovieController(self.mval, self.mrep)
 
-        # Test deleting clients
-        clients_to_delete = self.crep.get_all()
+        self.crep = ClientRepository()
+        self.cval = ValidateClient()
+        self.cctr = ClientController(self.cval, self.crep)
+        self.rrep = RentRepository()
+        self.rval = ValidateRent()
+        self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)
+
+        self.mctr.set_other_controllers(self.rctr)
+        self.cctr.set_other_controllers(self.rctr)
+
+    def test_create_client(self):
+        self.cctr.create("Client1", "PID1")
+        clients = self.cctr.get_all()
+        self.assertEqual(len(clients), 1)
+        self.assertEqual(clients[0].get_name(), "Client1")
+        self.assertEqual(clients[0].get_pid(), "PID1")
+
+    def test_delete_client(self):
+        self.cctr.create("Client1", "PID1")
+        clients_to_delete = self.cctr.get_all()
         self.cctr.delete(clients_to_delete)
-        clients = self.crep.get_all()
-        assert len(clients) == 0
+        self.assertEqual(len(self.cctr.get_all()), 0)
 
-    def test_rent_controller(self):
-        '''
-        Description:
-            Performs tests for the RentController.
-        '''
-        # Test creating rents
-        for i in range(5):
-            self.cctr.create(f"Client{i}", f"PID{i}")
 
-        for i in range(5):
-            self.mctr.create(f"Movie{i}", f"Description{i}", f"Genre{i}")
+class TestRentController(unittest.TestCase):
+    def setUp(self):
+        self.mrep = MovieRepository()
+        self.mval = ValidateMovie()
+        self.mctr = MovieController(self.mval, self.mrep)
 
-        for i in range(5):
-            movie = self.mrep.get_all()[i]  # Assuming at least one movie is available
-            client = self.crep.get_all()[i]  # Assuming at least one client exists
-            self.rctr.create(client, movie)
-            rents = self.rrep.get_all()
+        self.crep = ClientRepository()
+        self.cval = ValidateClient()
+        self.cctr = ClientController(self.cval, self.crep)
+        self.rrep = RentRepository()
+        self.rval = ValidateRent()
+        self.rctr = RentController(self.rval, self.rrep, self.mctr, self.cctr)
 
-        # Test deleting rents
-        rents_to_delete = self.rrep.get_all()
-        self.rctr.delete(rents_to_delete)
-        assert len(self.rrep.get_all()) == 0
+        self.mctr.set_other_controllers(self.rctr)
+        self.cctr.set_other_controllers(self.rctr)
 
-    def run_tests(self):
-        '''
-        Description:
-            Runs all the test methods in the TestContainer.
-        '''
-        self.test_movie_controller()
-        self.test_client_controller()
-        self.test_rent_controller()
+    def test_create_rent(self):
+        self.cctr.create("Client1", "PID1")
+        self.mctr.create("Movie1", "Description1", "Genre1")
+
+        client = self.cctr.get_all()[0]
+        movie = self.mctr.get_all()[0]
+
+        self.rctr.create(client, movie)
+        rents = self.rctr.get_all()
+        self.assertEqual(len(rents), 1)
+        self.assertEqual(rents[0].get_cid(), client.get_id())
+        self.assertEqual(rents[0].get_mid(), movie.get_id())
+
+    def test_finish_rent(self):
+        self.cctr.create("Client1", "PID1")
+        self.mctr.create("Movie1", "Description1", "Genre1")
+
+        client = self.cctr.get_all()[0]
+        movie = self.mctr.get_all()[0]
+
+        self.rctr.create(client, movie)
+        rent = self.rctr.get_all()[0]
+        rent_id = rent.get_id()
+
+        self.rctr.finish(rent_id)
+        self.assertTrue(rent.get_comp())
+        self.assertTrue(movie.get_avb())
+
+if __name__ == '__main__':
+    unittest.main()

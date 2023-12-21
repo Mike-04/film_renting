@@ -138,7 +138,7 @@ class Console:
         for rent in rents:
             rent = self.__rctr.get_rent_dto(rent)
             if(rent["comp"]==False):
-                print(rent["client"]["name"], "has", rent["movie"]["name"])
+                print(rent["rent_id"],rent["client"]["name"], "has", rent["movie"]["name"])
 
     def __get_confirm(self):
         '''

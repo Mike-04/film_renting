@@ -383,9 +383,14 @@ class RentController:
         id = self.get_next_id()
         cid = client.get_id()
         mid = movie.get_id()
+        ncr=client.get_rents()
+        nmr=movie.get_rents()
         comp = False
         rent = Rent(id, cid, mid,comp)
         self.__val.validate(rent, movie)
+        movie.set_rents(nmr+1)
+        movie.set_avb(False)
+        client.set_rents(ncr+1)
         self.__repo.add(rent)
 
     def finish(self,id):
@@ -397,6 +402,8 @@ class RentController:
             Creates a new Rent object with the provided client and movie, validates it, and adds it to the repository.
         '''
         rent=self.__repo.find(id)
+        movie=self.__mctr.find(rent.get_mid())
+        movie.set_avb(True)
         rent.set_comp(True)
 
     def get_rent_dto(self, rent):

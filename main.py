@@ -34,7 +34,5 @@ class DependencyContainer:
         self.ui.startUI()
 
 # Usage
-test_container=TestContainer()
-test_container.run_tests()
 dependency_container = DependencyContainer()
 dependency_container.start_application()
