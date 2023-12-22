@@ -8,6 +8,67 @@ from rent_dto import RentDTO
 first_names = ["John", "Jane", "Michael", "Emily", "David", "Sophia", "Daniel", "Olivia", "Christopher", "Emma"]
 last_names = ["Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor"]
 
+def bubble_sort_by_two_keys(data, key1_func, key2_func):
+    n = len(data)
+
+    for i in range(n):
+        for j in range(0, n-i-1):
+            key1_j = key1_func(data[j])
+            key2_j = key2_func(data[j])
+            key1_j1 = key1_func(data[j+1])
+            key2_j1 = key2_func(data[j+1])
+            if (key1_j > key1_j1) or (key1_j == key1_j1 and key2_j > key2_j1):
+                data[j], data[j+1] = data[j+1], data[j]
+
+def merge_sort(arr, key=None):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+
+    left_half = merge_sort(left_half, key)
+    right_half = merge_sort(right_half, key)
+
+    return merge(left_half, right_half, key)
+
+def merge(left, right, key):
+    merged = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if key(left[i]) < key(right[j]):
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+
+    return merged
+
+def bingo_sort(arr, key=None):
+    size = len(arr)
+    bingo = min(arr, key=key)
+    largest = max(arr, key=key)
+    next_bingo = largest
+    next_pos = 0
+
+    while bingo < next_bingo:
+        start_pos = next_pos
+
+        for i in range(start_pos, size):
+            if key(arr[i]) == key(bingo):
+                arr[i], arr[next_pos] = arr[next_pos], arr[i]
+                next_pos += 1
+            elif key(arr[i]) < key(next_bingo):
+                next_bingo = arr[i]
+
+        bingo = next_bingo
+        next_bingo = largest
+
 
 class MovieController:
     def __init__(self, val, repo):
@@ -118,7 +179,7 @@ class MovieController:
         '''
         movies = self.__repo.get_all()
         movies = [movie for movie in movies if movie.get_rents() > 0]
-        movies.sort(key=lambda movie: movie.get_rents())
+        movies.sort(key=lambda movie: movie.get_rents(),reverse=True)
         return movies
 
     def search(self, prop):
@@ -282,7 +343,7 @@ class ClientController:
         '''
         clients = self.__repo.get_all()
         clients = [client for client in clients if client.get_rents() > 0]
-        clients.sort(key=lambda client: (client.get_name(), client.get_rents()))
+        clients.sort(key=lambda client: (client.get_rents()),reverse=True)
         return clients
 
     def get_r3(self):
@@ -295,7 +356,7 @@ class ClientController:
         clients = self.__repo.get_all()
         list_length = len(clients)
         clients = [client for client in clients if client.get_rents() > 0]
-        clients.sort(key=lambda client: (client.get_rents(), client.get_name()))
+        clients.sort(key=lambda client: (client.get_rents(), client.get_name()),reverse=True)
         percentage = 30
         elements_to_keep = int(list_length * (percentage / 100))
 
@@ -434,6 +495,7 @@ class RentController:
             if(int(rent["client"]["pid"][:1])%2==1):
                 movie_ids[movie_id][movie_id]+=1
         sorted_movie_ids = sorted(movie_ids, key=lambda x: list(x.values())[0], reverse=True)
+        print(sorted_movie_ids)
         first = [list(d.keys())[0] for d in sorted_movie_ids[:5]]
         for id in first:
             movies.append(self.__mctr.find(id))
