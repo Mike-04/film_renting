@@ -126,7 +126,7 @@ class Console:
         Description:
             Prints the details of each client in the provided list.
         '''
-        sorted_clients = bingo_sort(clients, key=lambda x: x.get_name())
+        sorted_clients = merge_sort(clients, key=lambda x: x.get_name())
         for client in sorted_clients:
             print(client)
 
