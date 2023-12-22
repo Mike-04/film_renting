@@ -9,25 +9,25 @@
     "id": 2,
     "name": "Ana Ionescu",
     "pid": "8876543210123",
-    "rents": 1
+    "rents": 3
   },
   {
     "id": 3,
     "name": "Mircea Radu",
     "pid": "5567891230123",
-    "rents": 0
+    "rents": 2
   },
   {
     "id": 4,
     "name": "Andreea Vasile",
     "pid": "6891234560123",
-    "rents": 0
+    "rents": 5
   },
   {
     "id": 5,
     "name": "Catalin Stoica",
     "pid": "1216549870123",
-    "rents": 0
+    "rents": 7
   },
   {
     "id": 6,

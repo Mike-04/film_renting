@@ -1,6 +1,7 @@
 
 from domain import Movie
 from domain import Client
+from controller import bubble_sort_by_two_keys,merge_sort,bingo_sort
 import os
 
 import os
@@ -125,7 +126,8 @@ class Console:
         Description:
             Prints the details of each client in the provided list.
         '''
-        for client in clients:
+        sorted_clients = bingo_sort(clients, key=lambda x: x.get_name())
+        for client in sorted_clients:
             print(client)
 
     def __printRents(self, rents):
@@ -135,10 +137,16 @@ class Console:
         Description:
             Prints the details of each rent in the provided list.
         '''
+        rents2=[]
         for rent in rents:
             rent = self.__rctr.get_rent_dto(rent)
             if(rent["comp"]==False):
-                print(rent["rent_id"],rent["client"]["name"], "has", rent["movie"]["name"])
+                rents2.append(rent)
+        bubble_sort_by_two_keys(rents2,lambda x:x["client"]["name"],lambda y:y["movie"]["name"])
+        for rent in rents2:
+            print(rent["rent_id"],rent["client"]["name"], "has", rent["movie"]["name"])
+
+
 
     def __get_confirm(self):
         '''
@@ -179,7 +187,7 @@ class Console:
     def __rep4(self):
         '''
         Description:
-            Prints a report of clients with rents, limited to 30%.
+            Prints a report of male clients with rents, limited to 30%.
         '''
         movies = self.__rctr.get_r4()
         self.__printMovies(movies)

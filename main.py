@@ -1,7 +1,6 @@
 from domain import ValidateClient,ValidateMovie,ValidateRent
 from repository import MovieRepository,ClientRepository,RentRepository
 from controller import MovieController,ClientController,RentController
-from testing import TestContainer
 from ui import Console
 
 class DependencyContainer:
