@@ -55,4 +55,4 @@ class RentDTO:
         Description:
             Creates a new RentDTO object using the specified Rent, Client, and Movie objects.
         '''
-        return cls(rent.get_id(), client, movie,comp)
+        return cls(rent.get_id(), client, movie, comp)

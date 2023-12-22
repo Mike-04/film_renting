@@ -418,7 +418,7 @@ class RentController:
         client = self.__cctr.find(rent.get_cid())
         movie = self.__mctr.find(rent.get_mid())
         comp=rent.get_comp()
-        rent_dto = RentDTO.from_rent(rent, client, movie,comp)
+        rent_dto = RentDTO.from_rent(rent, client, movie, comp)
         return rent_dto.to_dict()
 
     def get_r4(self):

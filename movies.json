@@ -129,33 +129,9 @@
   },
   {
     "id": 17,
-    "name": "Schindler's List",
-    "description": "A powerful tale of humanity during the Holocaust",
-    "genre": "Biography",
-    "rents": 0,
-    "avb": true
-  },
-  {
-    "id": 18,
-    "name": "The Lord of the Rings: The Fellowship of the Ring",
-    "description": "A journey to destroy the One Ring",
-    "genre": "Fantasy",
-    "rents": 0,
-    "avb": true
-  },
-  {
-    "id": 19,
-    "name": "The Lord of the Rings: The Two Towers",
-    "description": "The continuation of the epic quest",
-    "genre": "Fantasy",
-    "rents": 0,
-    "avb": true
-  },
-  {
-    "id": 20,
-    "name": "The Lord of the Rings: The Return of the King",
-    "description": "The final battle for Middle-earth",
-    "genre": "Fantasy",
+    "name": "test",
+    "description": "test",
+    "genre": "test",
     "rents": 0,
     "avb": true
   }
