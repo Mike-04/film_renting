@@ -21,6 +21,11 @@ def bubble_sort_by_two_keys(data, key1_func, key2_func):
                 data[j], data[j+1] = data[j+1], data[j]
 
 def merge_sort(arr, key=None):
+    """
+    Merge sort is a recursive algorithm that continuously splits the array in half until it cannot be further divided i.e.,
+    the array has only one element left (an array with one element is always sorted). 
+    Then the sorted subarrays are merged into one sorted array.
+    """
     if len(arr) <= 1:
         return arr
     mid = len(arr) // 2
@@ -50,6 +55,15 @@ def merge(left, right, key):
     return merged
 
 def comb_sort(arr, key=None):
+    """
+    Comb Sort is mainly an improvement over Bubble Sort. Bubble sort always compares adjacent values. 
+    So all inversions are removed one by one. Comb Sort improves on Bubble Sort by using a gap of the size of more than 1.
+    The gap starts with a large value and shrinks by a factor of 1.3 in every iteration until it reaches the value 1.
+    Complexity:
+    Best case: O(n log n)
+    Worst case: O(n^2)
+    Average case: O(n^2/2^p) where p is the number of gap modifications
+    """
     gap = len(arr)
     shrink_factor = 1.3
     swapped = True
