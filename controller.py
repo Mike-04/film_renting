@@ -49,25 +49,22 @@ def merge(left, right, key):
 
     return merged
 
-def bingo_sort(arr, key=None):
-    size = len(arr)
-    bingo = min(arr, key=key)
-    largest = max(arr, key=key)
-    next_bingo = largest
-    next_pos = 0
+def comb_sort(arr, key=None):
+    gap = len(arr)
+    shrink_factor = 1.3
+    swapped = True
 
-    while bingo < next_bingo:
-        start_pos = next_pos
+    while gap > 1 or swapped:
+        # Update the gap with the shrink factor
+        gap = max(1, int(gap / shrink_factor))
+        swapped = False
 
-        for i in range(start_pos, size):
-            if key(arr[i]) == key(bingo):
-                arr[i], arr[next_pos] = arr[next_pos], arr[i]
-                next_pos += 1
-            elif key(arr[i]) < key(next_bingo):
-                next_bingo = arr[i]
+        for i in range(len(arr) - gap):
+            j = i + gap
 
-        bingo = next_bingo
-        next_bingo = largest
+            if key(arr[i]) > key(arr[j]):
+                arr[i], arr[j] = arr[j], arr[i]
+                swapped = True
 
 
 class MovieController:
@@ -266,10 +263,11 @@ class ClientController:
         Description:
             Creates the specified number of clients with random names and PIDs and adds them to the repository.
         '''
-        for i in range(0, nr):
+        if nr > 0:
             name = random.choice(first_names) + " " + random.choice(first_names)
             pid = "".join(str(random.randint(0, 10)) for _ in range(10))
             self.create(name, pid)
+            self.creater(nr - 1)
 
     def create(self, name, pid):
         '''
@@ -286,7 +284,7 @@ class ClientController:
         self.__val.validate(client)
         self.__repo.add(client)
 
-    def get_next_id(self):
+    def get_next_id(self,current_id=1):
         '''
         Returns:
             int: The next available ID for a client.
@@ -294,10 +292,11 @@ class ClientController:
             Calculates and returns the next available ID for a client in the repository.
         '''
         existing_ids = {client.get_id() for client in self.__repo.get_all()}
-        next_id = 1
-        while next_id in existing_ids:
-            next_id += 1
-        return next_id
+        
+        if current_id not in existing_ids:
+            return current_id
+        else:
+            return self.get_next_id(current_id + 1)
 
     def delete(self, clients):
         '''

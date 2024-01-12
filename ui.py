@@ -1,7 +1,7 @@
 
 from domain import Movie
 from domain import Client
-from controller import bubble_sort_by_two_keys,merge_sort,bingo_sort
+from controller import bubble_sort_by_two_keys,merge_sort,comb_sort
 import os
 
 import os
@@ -116,7 +116,8 @@ class Console:
         Description:
             Prints the details of each movie in the provided list.
         '''
-        for movie in movies:
+        sorted_movies = merge_sort(movies, key=lambda x: x.get_name())
+        for movie in sorted_movies:
             print(movie)
 
     def __printClients(self, clients):
